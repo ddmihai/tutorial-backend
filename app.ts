@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: process.env.NODE_ENV === 'production' ? 'https://tutorialx-a759317e325f.herokuapp.com' : 'http://localhost:3333'
+    origin: app.get('env') === 'production' ? 'https://tutorialx-a759317e325f.herokuapp.com' : 'http://localhost:3333'
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,9 +33,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 14 * 24 * 60 * 60 * 1000,
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: process.env.NODE_ENV === 'production'
+        httpOnly: app.get('env') === 'production',
+        secure: app.get('env') === 'production',
+        sameSite: app.get('env') === 'production' ? 'none' : 'lax',
+        maxAge: 24 * 60 * 60 * 1000  // Valid pentru o zi
     },
 
     store: MongoStore.create({

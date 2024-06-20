@@ -11,7 +11,7 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     credentials: true,
-    origin: process.env.NODE_ENV === 'production' ? 'https://tutorialx-a759317e325f.herokuapp.com' : 'http://localhost:3333'
+    origin: app.get('env') === 'production' ? 'https://tutorialx-a759317e325f.herokuapp.com' : 'http://localhost:3333'
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
@@ -30,9 +30,10 @@ app.use((0, express_session_1.default)({
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 14 * 24 * 60 * 60 * 1000,
-        secure: process.env.NODE_ENV === 'production',
-        httpOnly: process.env.NODE_ENV === 'production'
+        httpOnly: app.get('env') === 'production',
+        secure: app.get('env') === 'production',
+        sameSite: app.get('env') === 'production' ? 'none' : 'lax',
+        maxAge: 24 * 60 * 60 * 1000 // Valid pentru o zi
     },
     store: connect_mongo_1.default.create({
         mongoUrl: process.env.MONGODB_URI,
