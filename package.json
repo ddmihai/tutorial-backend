@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.ts",
-    "start": "dist/server.js",
     "build": "tsc --build",
-    "push": "git add . && git commit -m 'push fast' && git push"
+    "start": "dist/server.js",
+    "push": "npm run build && git add . && git commit -m 'push fast' && git push"
   },
   "keywords": [],
   "author": "",
