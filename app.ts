@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(cors({
     credentials: true,
-    origin: process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3333'
+    origin: process.env.NODE_ENV === 'production' ? 'https://tutorialx-a759317e325f.herokuapp.com' : 'http://localhost:3333'
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
